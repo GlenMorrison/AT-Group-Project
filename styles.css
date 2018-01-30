@@ -1,51 +1,66 @@
-.keyboard{
-    display: block;
-  }
+body, textarea {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
 
-  textarea{
-    height: 40px;
-    font-size: 2em;
-    border-radius: 20px;
-    font-family: Helvetica, sans-serif;
-  }
+.keyboard-keys{
+  margin: 3px;
+  padding: 3px;
+  width: 100%;
+  display: block;
+  background: #d1d5db;
+}
 
-  .output-row{
-    width: 900px;
-    margin-left: 20px;
-  }
+textarea{
+  border: solid 1px #d1d5db;
+  height: 60px;
+  font-size: 2em;
+  border-radius: 10px;
+  padding: 5px;
+}
 
-  .top-row{
-    margin-left: 0px;
-    margin-top: 5px;
-  }
+.output-row{
+  margin: 10px 2px;
+  text-align: center;
+}
 
-  .middle-row{
-    margin-left: 10px;
-    margin-top: 5px;
-  }
+.top-row{
+  margin: 10px 2px;
+  text-align: center;
+}
 
-  .bottom-row{
-    margin-left: 55px;
-    margin-top: 5px;
-  }
+.middle-row{
+  margin: 10px 2px;
+  text-align: center;
+}
 
-  .function-row{
-    margin-left: 40px;
-    margin-top: 20px;
-  }
+.bottom-row{
+  margin: 10px 2px;
+  text-align: center;
+}
 
-  button{
-    width: 40px;
-    height: 50px;
-    border-radius: 10px;
-    font-size: 1.5em;
-    font-family: Helvetica, sans-serif;
-  }
+.function-row{
+  margin: 10px 2px;
+  text-align: center;
+}
 
-  #spacebar{
-    width: 140px;
-  } 
+button{
+  border:none;
+  width: 40px;
+  height: 50px;
+  border-radius:6px;
+  box-shadow: 0 1px 0 #888;
+  font-size: 1.5em;
+}
 
-  #backspace{
-    width: 140px;
-  }
+button:active{
+  color: #888;
+  background-color: #888;
+}
+
+#spacebar{
+  width: 140px;
+} 
+
+#backspace{
+  width: 140px;
+}
