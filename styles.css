@@ -59,8 +59,12 @@ button:active{
 
 #spacebar{
   width: 140px;
-} 
+}
 
 #backspace{
   width: 140px;
+}
+
+#capslock{
+  width: 120px;
 }
