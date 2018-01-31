@@ -68,3 +68,24 @@ button:active{
 #capslock{
   width: 120px;
 }
+
+.prediciton-row{
+  width: 35%;
+  height: 40px;
+  background: #bfc3c9;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.prediction-button{
+  border:none;
+  width: auto;
+  min-width: 40px;
+  height: 30px;
+  white-space: nowrap;
+  top: 0;
+  border-radius:0px;
+  box-shadow: 0 0px 0 #888;
+  font-size: 1em;
+  background: #bfc3c9;
+}

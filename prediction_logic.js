@@ -1,5 +1,5 @@
 // the current word being typed (seperated by spaces)
-let crntWord = '';
+let crntWord;
 
 // the whole sentence (all words typed already)
 var crntSentence = [];
@@ -10,107 +10,22 @@ var wordDisplay = document.getElementById('word_display');
 var capsLock = false;
 var keyLetters = document.getElementsByClassName('letter');
 
-
-
-
-var words = [
-  'adipisicing',
-  'ad',
-  'aliqua',
-  'aliquip',
-  'amet',
-  'anim',
-  'aute',
-  'cillum',
-  'commodo',
-  'consectetur',
-  'consequat',
-  'culpa',
-  'cupidatat',
-  'deserunt',
-  'do',
-  'dolor',
-  'dolor',
-  'dolore',
-  'dolore',
-  'Duis',
-  'ea',
-  'eiusmod',
-  'elit',
-  'enim',
-  'esse',
-  'est',
-  'et',
-  'eu',
-  'ex',
-  'Excepteur',
-  'exercitation',
-  'fugiat',
-  'id',
-  'in',
-  'in',
-  'in',
-  'incididunt',
-  'ipsum',
-  'irure',
-  'labore',
-  'laboris',
-  'laborum',
-  'Lorem',
-  'magna',
-  'minim',
-  'mollit',
-  'nisi',
-  'non',
-  'nostrud',
-  'nulla',
-  'occaecat',
-  'officia',
-  'pariatur',
-  'proident',
-  'qui',
-  'quis',
-  'reprehenderit',
-  'sed',
-  'sint',
-  'sit',
-  'sunt',
-  'tempor',
-  'ullamco',
-  'Ut',
-  'ut',
-  'ut',
-  'velit',
-  'veniam',
-  'voluptate'
-];
-
-var settings = {
-  maxAmount : 15
-};
-
-var tree = new jsT9(words, settings);
-
-
-
-
 GetPredictionSpace('q');
 
 // adds strings to the current word
 function UpdateCurrentWord(str){
-  crntWord = str;
+  wordDisplay.innerHTML = str;
 }
 
 // adds strings to the current sentence
 function UpdateSentence(str){
   crntSentence = str;
-  wordDisplay.innerHTML = str;
 }
 
 // inserts a blank space and resets current word
 function SpaceKey(){
   UpdateSentence(crntSentence + ' ');
-  UpdateCurrentWord(' ');
+  UpdateCurrentWord(wordDisplay.innerHTML + ' ');
 };
 
 // removes one char from the end of the whole sentence
@@ -123,6 +38,7 @@ function Backspace(){
 function AlphabetKey(key){
   UpdateSentence(crntSentence + key.innerHTML);
   UpdateCurrentWord(wordDisplay.innerHTML + key.innerHTML);
+  WordUpdate();
 }
 
 // called when a keyboard button is pressed
@@ -133,11 +49,9 @@ var btnClick = function(key){
       break;
     case 'backspace':
       Backspace();
-      WordUpdate();
       break;
     default:
       AlphabetKey(key);
-      WordUpdate();
   }
 };
 
@@ -162,22 +76,7 @@ var ToggleCapsLock = function(){
   a new prediciton if needed
 */
 function WordUpdate(){
-  if(wordDisplay.innerHTML !== '') {
-    var predictions = tree.predict(wordDisplay.innerHTML);
-
-    console.log(predictions);
-    console.log(wordDisplay.innerHTML);
-
-    if(predictions.length > 0) {
-      document.getElementById('www').innerHTML = predictions;
-    }
-    else {
-      document.getElementById('www').innerHTML = '';
-    }
-  }
-  else {
-    document.getElementById('www').innerHTML = '';
-  }
+  console.log('initialize word to be predicted');
 }
 
 /*
@@ -223,5 +122,3 @@ function GetPredictionSpace(letter){
     }
   }
 }
-
-

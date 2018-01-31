@@ -3,15 +3,16 @@
   <meta charset="utf-8"/>
   <title>AT Software Project</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
-
 </head>
 <body>
 
   <div class='output-row'>
       <textarea id='word_display'></textarea>
+      <textarea id='www'></textarea>
   </div>
 
   <div class='keyboard-keys'>
+    <div class='prediciton-row top'></div>
     <div class='top-row'>
       <button class="key letter" id="q" onclick="btnClick(this)">q</button>
       <button class="key letter" id="w" onclick="btnClick(this)">w</button>
@@ -24,8 +25,9 @@
       <button class="key letter" id="o" onclick="btnClick(this)">o</button>
       <button class="key letter" id="p" onclick="btnClick(this)">p</button>
     </div>
+    <div class='prediciton-row middle'></div>
     <div class='middle-row'>
-        <button class="key letter" id="a" onclick="btnClick(this)">w</button>
+        <button class="key letter" id="a" onclick="btnClick(this)">a</button>
         <button class="key letter" id="s" onclick="btnClick(this)">s</button>
         <button class="key letter" id="d" onclick="btnClick(this)">d</button>
         <button class="key letter" id="f" onclick="btnClick(this)">f</button>
@@ -35,6 +37,7 @@
         <button class="key letter" id="k" onclick="btnClick(this)">k</button>
         <button class="key letter" id="l" onclick="btnClick(this)">l</button>
     </div>
+    <div class='prediciton-row bottom'></div>
     <div class='bottom-row'>
         <button class="key letter" id="z" onclick="btnClick(this)">z</button>
         <button class="key letter" id="x" onclick="btnClick(this)">x</button>
@@ -53,6 +56,6 @@
 
 </body>
 
+<script type="text/javascript" src="jst9.js"></script>
 <script type="text/javascript" src="script.js"></script>
-
 </script>
