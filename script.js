@@ -95,6 +95,10 @@ function WordUpdate(){
 
     ClearPredictionSpaces();
     ShowPredictionAboveKey(prediction);
+    
+    //show multiple predictions above multiple keys?
+    //ShowPredictionAboveKey(predictions[1]);
+    //ShowPredictionAboveKey(predictions[2]);
   }
   
 }
