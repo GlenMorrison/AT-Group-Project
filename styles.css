@@ -10,6 +10,7 @@ body, textarea {
 
 button{
   border:none;
+  background-color: rgb(245, 245, 245);
   border-radius:6px;
   box-shadow: 0 1px 0 #888;
   font-size: 1.5em;
