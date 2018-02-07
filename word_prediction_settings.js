@@ -5,6 +5,7 @@
 
 // The bank of words in which the library references when looking for possible predictions
 var words = [
+    'university',
     'adipisicing',
     'ad',
     'wet',

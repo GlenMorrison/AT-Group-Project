@@ -115,9 +115,11 @@ function ClearPredictionSpaces(){
 function predictionClick(key){
   var content = key.innerHTML;
 
-  console.log(key.innerHTML);
+  console.log(content);
 
-  if (content !== null || content !== ' '){
+  if (content === undefined) return;
+
+  if (content !== null && content !== ''){
     sentence[currentWordIndex] = content;
     DrawSentence();
     ClearPredictionSpaces();
