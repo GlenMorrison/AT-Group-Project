@@ -1,131 +1,45 @@
-// the current word being typed (seperated by spaces)
-let crntWord = '';
-
-// the whole sentence (all words typed already)
-var crntSentence = [];
-
-// the element that displayed the output
 var wordDisplay = document.getElementById('word_display');
 
 var capsLock = false;
+
+// holds all the prediction and keyboard letter buttons
 var keyLetters = document.getElementsByClassName('letter');
+var predictionLetters = document.getElementsByClassName('prediction');
 
 
+var sentence = [];
+var currentWordIndex = 0;
 
 
-var words = [
-  'adipisicing',
-  'ad',
-  'aliqua',
-  'aliquip',
-  'amet',
-  'anim',
-  'aute',
-  'cillum',
-  'commodo',
-  'consectetur',
-  'consequat',
-  'culpa',
-  'cupidatat',
-  'deserunt',
-  'do',
-  'dolor',
-  'dolor',
-  'dolore',
-  'dolore',
-  'Duis',
-  'ea',
-  'eiusmod',
-  'elit',
-  'enim',
-  'esse',
-  'est',
-  'et',
-  'eu',
-  'ex',
-  'Excepteur',
-  'exercitation',
-  'fugiat',
-  'id',
-  'in',
-  'in',
-  'in',
-  'incididunt',
-  'ipsum',
-  'irure',
-  'labore',
-  'laboris',
-  'laborum',
-  'Lorem',
-  'magna',
-  'minim',
-  'mollit',
-  'nisi',
-  'non',
-  'nostrud',
-  'nulla',
-  'occaecat',
-  'officia',
-  'pariatur',
-  'proident',
-  'qui',
-  'quis',
-  'reprehenderit',
-  'sed',
-  'sint',
-  'sit',
-  'sunt',
-  'tempor',
-  'ullamco',
-  'Ut',
-  'ut',
-  'ut',
-  'velit',
-  'veniam',
-  'voluptate'
-];
+// Clears and then draws the sentence array with spaces in between
+function DrawSentence(){
+  wordDisplay.innerHTML = '';
+  currentWordIndex = 0;
 
-var settings = {
-  maxAmount : 15
-};
-
-var tree = new jsT9(words, settings);
-
-
-
-
-GetPredictionSpace('q');
-
-// adds strings to the current word
-function UpdateCurrentWord(str){
-  crntWord = str;
+  for (var i = 0; i < sentence.length; i++) {
+    //console.log("drawing sentence word at index " + i);
+    wordDisplay.innerHTML += sentence[i];
+    if(i !== -1 + sentence.length)
+    {
+      //console.log("not the end of the sentence so adding a space index: " + i);
+      wordDisplay.innerHTML += ' ';
+      currentWordIndex ++;
+    }
+  }
 }
 
-// adds strings to the current sentence
-function UpdateSentence(str){
-  crntSentence = str;
-  wordDisplay.innerHTML = str;
-}
-
-// inserts a blank space and resets current word
-function SpaceKey(){
-  UpdateSentence(crntSentence + ' ');
-  UpdateCurrentWord(' ');
-};
-
-// removes one char from the end of the whole sentence
-function Backspace(){
-  UpdateSentence(crntSentence.slice(0, - 1));
-  UpdateCurrentWord(wordDisplay.innerHTML.slice(0, - 1));
-};
-
-// adds a char form the alphabet to the current word
+// called when a letter has been pressed on the keyboard
 function AlphabetKey(key){
-  UpdateSentence(crntSentence + key.innerHTML);
-  UpdateCurrentWord(wordDisplay.innerHTML + key.innerHTML);
+  if(sentence.length <= 0){
+    sentence.push('');
+  }
+  
+  sentence[currentWordIndex] += key.innerHTML;
+
+  DrawSentence();
 }
 
-// called when a keyboard button is pressed
+// called when any keyboard button is pressed
 var btnClick = function(key){
   switch(key.id) {
     case 'spacebar':
@@ -133,95 +47,75 @@ var btnClick = function(key){
       break;
     case 'backspace':
       Backspace();
-      WordUpdate();
       break;
     default:
       AlphabetKey(key);
-      WordUpdate();
   }
+
+  WordUpdate();
 };
 
-var ToggleCapsLock = function(){
-  if(capsLock){
-    console.log('true so setting to false');
-    for (var i = 0; i < keyLetters.length; ++i)
-      keyLetters[i].innerHTML = keyLetters[i].innerHTML.toLowerCase();
-  }
-  else if (!capsLock){
-    console.log('false so setting to true');
-    for (var i = 0; i < keyLetters.length; ++i)
-      keyLetters[i].innerHTML = keyLetters[i].innerHTML.toUpperCase();
-  }
-  capsLock = !capsLock;
-  console.log(capsLock);
-}
-
-/*
-  runs anytime the current word has been updated.
-  send the word to the predictor to give the user
-  a new prediciton if needed
-*/
+// finds a prediction based on the current word in the sentence array
 function WordUpdate(){
-  if(wordDisplay.innerHTML !== '') {
-    var predictions = tree.predict(wordDisplay.innerHTML);
 
-    console.log(predictions);
-    console.log(wordDisplay.innerHTML);
+  // this gets an array of the actual prediction based on the current sentence typed
+  var predictions = tree.predict(sentence[currentWordIndex]);
 
-    if(predictions.length > 0) {
-      document.getElementById('www').innerHTML = predictions;
-    }
-    else {
-      document.getElementById('www').innerHTML = '';
-    }
-  }
-  else {
-    document.getElementById('www').innerHTML = '';
-  }
-}
-
-/*
-  generate a new prediction based on the 
-  current word the user is typing.
-*/
-function GetNewPrediction(){
-  console.log('Get prediction based on current word');
-  return 'predictionForNextLetterQ';
-}
-
-/*
-  show the current next to the next letter that 
-  the user has to press to get that word
-  (
-    i.e. 'happy' would show above the 'y' key while the user
-    has typed in 'happ'
-  )s
-*/
-function ShowPrediciton(destinationKey){
-  console.log('show prediction above a key here');
-}
-
-
-/*
-  positions some prediction string in the form of a button above 
-  a letter on the keyboard given by the parameter 'letter'
-*/
-function GetPredictionSpace(letter){
-  for (var i = 0; i < keyLetters.length; ++i)
+  // checks if a prediction is actually a string of characters
+  if(predictions.length > 0)
   {
-    if(keyLetters[i].id == letter)
-    {
-      var position = keyLetters[i].getBoundingClientRect();
-      var btn = document.createElement("BUTTON");
-      var t = document.createTextNode(GetNewPrediction());
-      btn.appendChild(t);
-      btn.style.position = "absolute";
-      btn.style.left = position.left+'px';
-      btn.style.top = position.top + -50+'px';
-      btn.className='prediction-button';
-      document.body.appendChild(btn);
+    ClearPredictionSpaces();
+    ShowPredictionAboveKey(predictions[0]);
+  }
+
+  return;
+  
+}
+
+// takes a string and displays it above the next character in the current sentence
+function ShowPredictionAboveKey(prediction){
+  var currentWord = sentence[currentWordIndex];
+  var predictionLetter = prediction.charAt(currentWord.length);
+
+  SetPredictionZIndex(predictionLetter);
+
+  console.log('current word: ' + currentWord);
+
+  var predictionSpace = document.getElementById('prediction-' + predictionLetter);
+
+  if(prediction.length === currentWord.length) return;
+
+  predictionSpace.innerHTML = prediction;
+}
+
+// clears all strings from each prediction element
+function ClearPredictionSpaces(){
+  for(var i=0;i<predictionLetters.length;i++){
+    predictionLetters[i].innerHTML = '';
+  }
+}
+
+function predictionClick(key){
+  var content = key.innerHTML;
+
+  console.log(key.innerHTML);
+
+  if (content !== null || content !== ' '){
+    sentence[currentWordIndex] = content;
+    DrawSentence();
+    ClearPredictionSpaces();
+  }
+  
+}
+
+function SetPredictionZIndex(letter){
+  for(var i=0;i<predictionLetters.length;i++){
+    predictionLetters[i].setAttribute("style", "position:initial");
+    if(predictionLetters[i].id === 'prediction-' + letter){
+      predictionLetters[i].setAttribute("style", "position:relative");
     }
   }
 }
 
-
+// draw the sentence when the page first loads
+DrawSentence();

@@ -2,12 +2,47 @@ body, textarea {
   font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
-.keyboard-keys{
-  margin: 3px;
-  padding: 3px;
+
+.prediction{
+  background: #d1d5db;
+  box-shadow: 0 0px 0 #888;
+}
+
+button{
+  border:none;
+  border-radius:6px;
+  box-shadow: 0 1px 0 #888;
+  font-size: 1.5em;
+}
+
+.keyboard{
   width: 100%;
   display: block;
   background: #d1d5db;
+}
+
+.keyboard-row{
+  height: 100px;
+  width: 100%;
+  background: #d1d5db;
+
+  text-align: center;
+}
+
+.letter-container{
+  display: inline-block;
+  width: 40px;
+  height: 100%;
+}
+
+.input{
+  width: 100%;
+  height: 50%;
+}
+
+.prediction{
+  width: 100%;
+  height: 50%;
 }
 
 textarea{
@@ -23,17 +58,7 @@ textarea{
   text-align: center;
 }
 
-.top-row{
-  margin: 10px 2px;
-  text-align: center;
-}
-
-.middle-row{
-  margin: 10px 2px;
-  text-align: center;
-}
-
-.bottom-row{
+.key-row{
   margin: 10px 2px;
   text-align: center;
 }
@@ -41,15 +66,6 @@ textarea{
 .function-row{
   margin: 10px 2px;
   text-align: center;
-}
-
-button{
-  border:none;
-  width: 40px;
-  height: 50px;
-  border-radius:6px;
-  box-shadow: 0 1px 0 #888;
-  font-size: 1.5em;
 }
 
 button:active{
@@ -71,7 +87,7 @@ button:active{
 
 .prediciton-row{
   width: 35%;
-  height: 40px;
+  height: 200px;
   background: #bfc3c9;
   margin: 0 auto;
   text-align: center;
@@ -88,4 +104,11 @@ button:active{
   box-shadow: 0 0px 0 #888;
   font-size: 1em;
   background: #bfc3c9;
+}
+
+
+
+.q-container{
+  height: 50px;
+  width: 20px;
 }
