@@ -16,6 +16,10 @@ function DrawSentence(){
   wordDisplay.innerHTML = '';
   currentWordIndex = 0;
 
+  if (sentence.length === 0){
+    ClearPredictionSpaces();
+  }
+
   for (var i = 0; i < sentence.length; i++) {
     //console.log("drawing sentence word at index " + i);
     wordDisplay.innerHTML += sentence[i];
@@ -55,11 +59,26 @@ var btnClick = function(key){
   WordUpdate();
 };
 
+function RemoveSpacesFromString(word){
+  return word.replace(/\s/g, '');
+}
+
 // finds a prediction based on the current word in the sentence array
 function WordUpdate(){
 
+  let word = sentence[currentWordIndex];
+
+  // return if the word doesn't exist
+  if (word === ' ' || word === undefined) return;
+
+  // make sure the word doesn't have any spaces in it
+  word = RemoveSpacesFromString(word);
+
   // this gets an array of the actual prediction based on the current sentence typed
-  var predictions = tree.predict(sentence[currentWordIndex]);
+  let predictions = tree.predict(word);
+
+  console.log('current Word: ' + word);
+  console.log(predictions);
 
   // checks if a prediction is actually a string of characters
   if(predictions.length > 0)
@@ -67,8 +86,6 @@ function WordUpdate(){
     ClearPredictionSpaces();
     ShowPredictionAboveKey(predictions[0]);
   }
-
-  return;
   
 }
 
