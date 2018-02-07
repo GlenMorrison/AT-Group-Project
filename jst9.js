@@ -21,7 +21,7 @@ var jsT9 = function jsT9(_wordList, _config) {
     },
     maxAmount: Infinity,
     caseSentitive: true,
-    slackSearch: true
+    slackSearch: false
   };
 
   // Extends the config options
@@ -111,9 +111,9 @@ jsT9.prototype = {
   _findInitialBranch: function _findInitialBranch(word) {
     var currentBranch = this.root;
 
-    if(this.config.slackSearch) {
-      return this._slackSearch(word, currentBranch);
-    }
+    //if(this.config.slackSearch) {
+    //  return this._slackSearch(word, currentBranch);
+    //}
 
     return this._normalSearch(word, currentBranch);
   },
@@ -123,6 +123,8 @@ jsT9.prototype = {
     var branchPrefix;
     var branch;
     var found;
+
+    console.log('normal search');
 
     while(word.length) {
       found = false;

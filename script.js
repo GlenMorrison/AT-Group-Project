@@ -76,6 +76,7 @@ function WordUpdate(){
 
   // this gets an array of the actual prediction based on the current sentence typed
   let predictions = tree.predict(word);
+  let prediction = predictions[0];
 
   console.log('current Word: ' + word);
   console.log(predictions);
@@ -83,8 +84,17 @@ function WordUpdate(){
   // checks if a prediction is actually a string of characters
   if(predictions.length > 0)
   {
+
+    for(var i=0;i<predictions.length;i++){
+      console.log(predictions[i]);
+      if(predictions[i].length === word.length){
+        prediction = predictions[(1+i)];
+        console.log('picking string: ' + prediction);
+      }
+    }
+
     ClearPredictionSpaces();
-    ShowPredictionAboveKey(predictions[0]);
+    ShowPredictionAboveKey(prediction);
   }
   
 }
