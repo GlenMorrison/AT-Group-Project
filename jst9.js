@@ -124,8 +124,6 @@ jsT9.prototype = {
     var branch;
     var found;
 
-    console.log('normal search');
-
     while(word.length) {
       found = false;
       for(branch in currentBranch.branches) {

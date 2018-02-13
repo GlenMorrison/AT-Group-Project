@@ -2,6 +2,8 @@ body, textarea {
   font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
+/*removes blue border around buttons*/
+button:focus {outline:0;}
 
 .prediction{
   background: #d1d5db;
@@ -13,11 +15,15 @@ button{
   background-color: rgb(245, 245, 245);
   border-radius:6px;
   box-shadow: 0 1px 0 #888;
+
+  /*change font size of keyboard text*/
   font-size: 1.5em;
 }
 
 .keyboard{
   width: 100%;
+  position: absolute;
+  bottom: 0;
   display: block;
   background: #d1d5db;
 }
@@ -107,7 +113,9 @@ button:active{
   background: #bfc3c9;
 }
 
-
+.row-seperator{
+  height: 1px;
+}
 
 .q-container{
   height: 50px;

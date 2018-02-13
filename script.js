@@ -3,9 +3,13 @@ var wordDisplay = document.getElementById('word_display');
 var capsLock = false;
 
 // holds all the prediction and keyboard letter buttons
-var keyLetters = document.getElementsByClassName('letter');
+var keyLetters = document.getElementsByClassName('input');
 var predictionLetters = document.getElementsByClassName('prediction');
 
+var commonWordBank = {
+  'university':1,
+  'hello':1 
+};
 
 var sentence = [];
 var currentWordIndex = 0;
@@ -66,6 +70,8 @@ function RemoveSpacesFromString(word){
 // finds a prediction based on the current word in the sentence array
 function WordUpdate(){
 
+  ResetButtonStyles();
+
   let word = sentence[currentWordIndex];
 
   // return if the word doesn't exist
@@ -76,31 +82,73 @@ function WordUpdate(){
 
   // this gets an array of the actual prediction based on the current sentence typed
   let predictions = tree.predict(word);
-  let prediction = predictions[0];
+  let selectedPredictions = [];
 
-  console.log('current Word: ' + word);
   console.log(predictions);
 
   // checks if a prediction is actually a string of characters
-  if(predictions.length > 0)
-  {
+  if(predictions.length <= 0) return;
 
-    for(var i=0;i<predictions.length;i++){
-      console.log(predictions[i]);
-      if(predictions[i].length === word.length){
-        prediction = predictions[(1+i)];
-        console.log('picking string: ' + prediction);
-      }
+  // Get most relevant predictions from the list of returned predictions
+  for(var i=0;i<predictions.length;i++){
+
+    let range = predictions[i].length - word.length;
+
+    // get all predictions within a certain character range
+    if(range > 0 && range < 5){
+
+      selectedPredictions.push(predictions[i]);
+      //prediction = predictions[(1+i)];
+
     }
 
-    ClearPredictionSpaces();
-    ShowPredictionAboveKey(prediction);
-    
-    //show multiple predictions above multiple keys?
-    //ShowPredictionAboveKey(predictions[1]);
-    //ShowPredictionAboveKey(predictions[2]);
   }
-  
+
+  console.log(selectedPredictions);
+
+  // handle a situation where no predictions are selected
+  if (selectedPredictions.length <= 0){
+    selectedPredictions = predictions[0];
+  }
+
+  // set the default best prediction
+  let prediction = selectedPredictions[0];
+
+  console.log('default prediction ', prediction);
+
+  // Get the most relevant prediction
+  let frequencyOfHighestWord = 0;
+
+  for(var i=0;i<selectedPredictions.length; i++){
+
+    let word = selectedPredictions[i];
+
+    console.log('checking word: ' + word);
+
+    Object.keys(commonWordBank).forEach(function(word) {
+
+      // all of these values are equal to the total number of keys in the array
+      console.log(commonWordBank[word]);
+
+      // if word exists in common word bank
+      if(commonWordBank[word] === undefined){
+
+        console.log(commonWordBank[word], frequencyOfHighestWord);
+
+        if(commonWordBank[word] > frequencyOfHighestWord){
+
+          frequencyOfHighestWord = commonWordBank[word];
+
+          prediction = word;
+
+        }
+      }
+    });
+  }
+
+  console.log(selectedPredictions);
+  ClearPredictionSpaces();
+  ShowPredictionAboveKey(prediction);
 }
 
 // takes a string and displays it above the next character in the current sentence
@@ -108,11 +156,15 @@ function ShowPredictionAboveKey(prediction){
   var currentWord = sentence[currentWordIndex];
   var predictionLetter = prediction.charAt(currentWord.length);
 
+  var predictionSpace = document.getElementById('prediction-' + predictionLetter);
+  var relevantButton = document.getElementById('input-' + predictionLetter);
+
+  //predictionSpace.style = 'border-left: 4px dotted blue;';
+  relevantButton.style = 'background-color: rgb(202, 251, 255)';
+
   SetPredictionZIndex(predictionLetter);
 
   console.log('current word: ' + currentWord);
-
-  var predictionSpace = document.getElementById('prediction-' + predictionLetter);
 
   if(prediction.length === currentWord.length) return;
 
@@ -126,6 +178,32 @@ function ClearPredictionSpaces(){
   }
 }
 
+// adds a string to the word bank to determine the most commonly used words
+function AddToCommonWordBank(string){
+  // add word to common word bank object
+  Object.keys(commonWordBank).forEach(function(word) {
+
+    ammount = commonWordBank[word];
+
+    console.log(word, string);
+
+    if(word === string){
+      commonWordBank[word] ++;
+    }else{
+      commonWordBank[string] = 1;
+    }
+
+  });
+
+  console.log(commonWordBank);
+}
+
+function ResetButtonStyles(){
+  for(var i=0;i<keyLetters.length;i++){
+    keyLetters[i].style = 'background-color: rgb(245, 245, 245)';
+  }
+}
+
 function predictionClick(key){
   var content = key.innerHTML;
 
@@ -135,10 +213,11 @@ function predictionClick(key){
 
   if (content !== null && content !== ''){
     sentence[currentWordIndex] = content;
+    AddToCommonWordBank(key.innerHTML);
     DrawSentence();
     ClearPredictionSpaces();
   }
-  
+  ResetButtonStyles();
 }
 
 function SetPredictionZIndex(letter){
